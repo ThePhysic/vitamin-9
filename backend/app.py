@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 import random
+import os  # Import os to access environment variables
 
 app = Flask(__name__)
 CORS(app)
@@ -18,4 +19,7 @@ def get_quote():
     return jsonify({'quote': random.choice(quotes)})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Use PORT environment variable if available, otherwise default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    # Bind to 0.0.0.0 to allow external access
+    app.run(host='0.0.0.0', port=port, debug=True)
